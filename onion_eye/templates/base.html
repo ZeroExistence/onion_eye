@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    <header>
+      <a href="/">Home</a>
+      <a href="/list">List</a>
+      <a href="/add">Add</a>
+    </header>
+    {% block body %}
+    {% endblock %}
+  </body>
+</html>

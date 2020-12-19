@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Onion Eye{% endblock %}
+{% block body %}
+<table border>
+<tr>
+  <th>Site</th>
+  <th>Online</th>
+  <th>Last Seen Online</th>
+  <th>Last Ping</th>
+  <th>Next Ping</th>
+</tr>
+{% for site in site_list %}
+<tr>
+  <td>{{ site.site }}</td>
+  <td>{{ site.online }}</td>
+  <td>{{ site.last_seen_online }}</td>
+  <td>{{ site.last_ping }}</td>
+  <td>{{ site.next_ping }}</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

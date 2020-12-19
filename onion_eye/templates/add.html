@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Onion Eye{% endblock %}
+{% block body %}
+<form method="POST">
+<div>{{ form.onion_site.label}}: {{form.onion_site}}</div>
+<input type="submit" value="Submit"/>
+</form>
+{% if status %}
+<p>Site: {{ status.site }}</p>
+{% endif %}
+{% endblock %}
