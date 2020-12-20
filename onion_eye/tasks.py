@@ -32,8 +32,7 @@ def initial_fetch(onion_site):
             verify=False,
             )
     except Exception as e:
-        print(e)
-        return "Error!"
+        return {'error': True, 'error_stack': e}
 
     if result.status_code == 200:
         data = {}
@@ -47,9 +46,9 @@ def initial_fetch(onion_site):
         current_app.redis.set(
             key,
             json.dumps(data, default=utils.data_converter))
-        return "Success!"
+        return {'site': onion_site, 'success': True}
     else:
-        return "Failed!"
+        return {'site': onion_site, 'success': False}
 
 
 @celery.task()
@@ -62,7 +61,7 @@ def looper():
         if next_ping < dt.datetime.now():
             fetch.apply_async((each, data))
             counter += 1
-    return "Number of fetches: {0}".format(counter)
+    return {'fetch': counter}
 
 
 @celery.task()
@@ -83,7 +82,7 @@ def fetch(key, data):
             * 2)
     data['last_ping'] = dt.datetime.now()
     current_app.redis.set(key, json.dumps(data, default=utils.data_converter))
-    return result.status_code
+    return {'site': data['site'], 'online': data['online']}
 
 
 """
