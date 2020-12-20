@@ -10,6 +10,7 @@ flask = "*"
 requests = {extras = ["socks"], version = "*"}
 flask-wtf = "*"
 tldextract = "*"
+gunicorn = "*"
 
 [dev-packages]
 
