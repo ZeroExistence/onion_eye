@@ -10,7 +10,7 @@ from tldextract import extract
 celery.conf.beat_schedule = {
     'task-looper': {
         'task': 'onion_eye.tasks.looper',
-        'schedule': 900,
+        'schedule': 600,
     }
 }
 
@@ -54,7 +54,7 @@ def initial_fetch(onion_site):
 @celery.task()
 def looper():
     counter = 0
-    onion_site_keys = current_app.redis.keys('onion_site:*')
+    onion_site_keys = current_app.redis.keys('onion_eye:*')
     for each in onion_site_keys:
         data = json.loads(current_app.redis.get(each))
         next_ping = utils.to_dt(data['next_ping'])
