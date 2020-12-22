@@ -74,11 +74,11 @@ def fetch(key, data):
     if result.status_code == 200:
         data['online'] = True
         data['last_seen_online'] = dt.datetime.now()
-        data['next_ping'] = utils.to_dt(data['last_ping']) + \
+        data['next_ping'] = dt.datetime.now() + \
             dt.timedelta(hours=1)
     else:
         data['online'] = False
-        data['next_ping'] = dt.datetime.now + (
+        data['next_ping'] = dt.datetime.now() + (
             (utils.to_dt(data['next_ping']) - utils.to_dt(data['last_ping']))
             * 2)
     data['last_ping'] = dt.datetime.now()
