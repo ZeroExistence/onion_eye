@@ -66,11 +66,29 @@ def looper():
 
 @celery.task()
 def fetch(key, data):
-    result = requests.get(
-        data['site'],
-        proxies=Config.REQUESTS_PROXY,
-        verify=False,
-        )
+    try:
+        result = requests.get(
+            data['site'],
+            proxies=Config.REQUESTS_PROXY,
+            verify=False,
+            )
+    except Exception as e:
+        data['online'] = False
+        data['next_ping'] = dt.datetime.now() + (
+            (utils.to_dt(data['next_ping']) - utils.to_dt(data['last_ping']))
+            * 2)
+        data['last_ping'] = dt.datetime.now()
+        current_app.redis.set(
+            key,
+            json.dumps(data, default=utils.data_converter)
+            )
+        return {
+            'site': data['site'],
+            'online': data['online'],
+            'status': 'Error',
+            'error_stack': e
+            }
+
     if result.status_code == 200:
         data['online'] = True
         data['last_seen_online'] = dt.datetime.now()
