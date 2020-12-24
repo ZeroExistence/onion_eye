@@ -32,7 +32,7 @@ def initial_fetch(onion_site):
             verify=False,
             )
     except Exception as e:
-        return {'error': True, 'error_stack': e}
+        return {'error': True, 'error_stack': repr(e)}
 
     if result.status_code == 200:
         data = {}
@@ -86,7 +86,7 @@ def fetch(key, data):
             'site': data['site'],
             'online': data['online'],
             'status': 'Error',
-            'error_stack': e
+            'error_stack': repr(e)
             }
 
     if result.status_code == 200:
