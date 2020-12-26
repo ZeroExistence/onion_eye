@@ -3,7 +3,7 @@ from onion_eye import tasks
 from wtforms import Form, StringField, validators
 import json
 
-views = Blueprint('views', __name__)
+views = Blueprint('web', __name__)
 
 
 class OnionForm(Form):

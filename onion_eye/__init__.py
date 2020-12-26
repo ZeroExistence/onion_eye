@@ -28,6 +28,8 @@ def create_app():
         decode_responses=True)
 
     from .web.views import views as web_views_bp
+    from .api.views import views as api_views_bp
+    app.register_blueprint(api_views_bp, url_prefix='/api')
     app.register_blueprint(web_views_bp)
 
     return app
