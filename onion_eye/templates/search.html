@@ -1,14 +1,30 @@
 {% extends "base.html" %}
 {% block title %}Onion Eye{% endblock %}
 {% block body %}
-<form method="POST">
-<div>{{ form.onion_site.label}}: {{form.onion_site}}</div>
+<form method="GET">
+<div><label for="q">Search</label>: <input id="q" name="q" required type="text" value="{% if q %}{{ q }}{% endif %}"></div>
 <input type="submit" value="Submit"/>
 </form>
 {% if list %}
-<table>
-  {{ for each in list }}
-
+<table border>
+<tr>
+  <th>Site</th>
+  <th>Online</th>
+  <th>Last Seen Online</th>
+  <th>Last Ping</th>
+  <th>Next Ping</th>
+</tr>
+{% for site in list %}
+<tr>
+  <td>{{ site.site }}</td>
+  <td>{{ site.online }}</td>
+  <td>{{ site.last_seen_online }}</td>
+  <td>{{ site.last_ping }}</td>
+  <td>{{ site.next_ping }}</td>
+</tr>
+{% endfor %}
 </table>
+{% else %}
+<p>No result</p>
 {% endif %}
 {% endblock %}

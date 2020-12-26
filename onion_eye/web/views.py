@@ -38,22 +38,25 @@ def add_page():
     return render_template('add.html', form=form)
 
 
-## Still in progress
-# @views.route("/search", methods=['GET', 'POST'])
-# def search_page():
-#     form = OnionForm(request.form)
-#     if request.method == 'POST' and form.validate():
-#         onion_site = form.onion_site.data
-#         result = current_app.redis.keys(
-#             'onion:site*{0}*'.format(onion_site)
-#             )
-#         if result:
-#             result_list = []
-#             for each in result:
-#                 result_list.append(json.dumps(current_app.redis.get(each)))
-#             return render_template(
-#                 'search.html',
-#                 form=form,
-#                 list=result_list
-#                 )
-#     return render_template('search.html', form=form)
+@views.route("/search")
+def search_page():
+    if request.args.get('q'):
+        query = request.args.get('q')
+        result = current_app.redis.keys(
+            'onion_eye:*{0}*'.format(query)
+            )
+        if result:
+            result_list = []
+            for each in result:
+                result_list.append(json.loads(current_app.redis.get(each)))
+            return render_template(
+                'search.html',
+                q=query,
+                list=result_list
+                )
+        else:
+            return render_template(
+                'search.html',
+                q=query
+                )
+    return render_template('search.html')
