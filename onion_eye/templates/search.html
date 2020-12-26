@@ -24,7 +24,8 @@
 </tr>
 {% endfor %}
 </table>
-{% else %}
+{% endif %}
+{% if result == 'none' %}
 <p>No result</p>
 {% endif %}
 {% endblock %}

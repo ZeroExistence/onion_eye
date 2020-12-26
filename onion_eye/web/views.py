@@ -57,6 +57,7 @@ def search_page():
         else:
             return render_template(
                 'search.html',
-                q=query
+                q=query,
+                result='none',
                 )
     return render_template('search.html')
